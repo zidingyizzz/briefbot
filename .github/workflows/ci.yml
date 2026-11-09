@@ -1,0 +1,31 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.9", "3.12"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install dependencies
+        run: pip install -r requirements.txt pytest
+      - name: Unit tests
+        run: python -m pytest tests/ -q
+      - name: Offline smoke (fresh then deduped)
+        run: |
+          rm -f .state/smoke-state.json
+          out1=$(python run.py --config tests/smoke.yaml --once)
+          echo "$out1"
+          out2=$(python run.py --config tests/smoke.yaml --once)
+          echo "$out2"
+          echo "$out1" | grep -q "items=2"
+          echo "$out2" | grep -q "skipped"

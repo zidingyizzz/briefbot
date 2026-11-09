@@ -1,0 +1,52 @@
+# BriefBot example config — daily AI tech digest, pushed to Telegram.
+#
+# Copy to config.yaml, export the env vars, then:
+#   python run.py --config config.yaml --dry-run   # preview in console
+#   python run.py --config config.yaml --once      # real run
+
+state:
+  file: .state/state.json
+
+llm:                              # any OpenAI-compatible endpoint works
+  base_url: ${OPENAI_BASE_URL:-https://api.openai.com/v1}
+  api_key: ${OPENAI_API_KEY}
+  model: ${OPENAI_MODEL:-gpt-4o-mini}
+
+# smtp:                          # uncomment to use the email channel
+#   host: ${SMTP_HOST}
+#   port: ${SMTP_PORT:-587}      # 587 STARTTLS / 465 SSL
+#   user: ${SMTP_USER}
+#   password: ${SMTP_PASSWORD}
+#   from: ${SMTP_FROM}
+
+jobs:
+  - name: tech-digest
+    subject: "Morning Tech Brief — {today} ({items} items)"
+    sources:
+      - type: rss
+        id: hackernews
+        url: https://hnrss.org/frontpage?points=200
+        limit: 30
+      - type: rss
+        id: techcrunch
+        url: https://techcrunch.com/feed/
+        limit: 15
+    digest:
+      mode: llm                  # llm | plain (plain needs no API key)
+      only_new: true             # skip items already reported in earlier runs
+      system_prompt: |           # optional: override the built-in editor prompt
+        You are the editor of a concise morning tech brief.
+        Write a one-line TL;DR, then up to 8 bullets (most important first,
+        max 2 lines each, append the item URL in parentheses).
+        Drop duplicates and fluff.
+    channels:
+      - type: telegram
+        bot_token: ${TELEGRAM_BOT_TOKEN}
+        chat_id: ${TELEGRAM_CHAT_ID}
+
+      # China-friendly delivery (no VPN needed) — uncomment one:
+      # - type: serverchan          # WeChat push, key from https://sct.ftqq.com
+      #   send_key: ${SERVERCHAN_SEND_KEY}
+      # - type: bark                # iOS push, key from the Bark app homepage
+      #   device_key: ${BARK_DEVICE_KEY}
+      #   group: BriefBot

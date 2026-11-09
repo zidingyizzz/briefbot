@@ -1,0 +1,22 @@
+# BriefBot example — watch product pages, alert on any field change.
+# Runs WITHOUT any LLM key (mode: plain).
+
+state:
+  file: .state/price-state.json
+
+jobs:
+  - name: price-watch
+    subject: "BriefBot price watch — {today} ({changes} changes)"
+    sources:
+      - type: page_select
+        id: example-product
+        url: https://example.com
+        selectors:               # CSS selectors -> watched fields
+          title: "h1"
+          # price: ".price .amount"   # fill in selectors for your product page
+    digest:
+      mode: plain               # no LLM needed for change alerts
+      watch_changes: true       # diff fields against the last snapshot
+      only_changed: true        # stay silent when nothing changed
+    channels:
+      - type: stdout            # swap for telegram / email / feishu

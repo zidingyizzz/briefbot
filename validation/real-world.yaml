@@ -1,0 +1,74 @@
+# BriefBot 3-day real-world validation config (2026-10-18 → 2026-10-21)
+# Plain mode (no API key needed). Reports archived to validation/reports/.
+
+state:
+  file: .state/real-world-state.json
+
+llm:
+  api_key: ""                    # plain mode for validation days 1-3
+
+jobs:
+  # Job 1 — multi-source CN tech digest (RSS dedupe over time)
+  - name: cn-tech-digest
+    subject: "CN Tech Digest — {today} ({items} new items)"
+    sources:
+      - type: rss
+        id: sspai
+        url: https://sspai.com/feed
+        limit: 10
+      - type: rss
+        id: solidot
+        url: https://www.solidot.org/index.rss
+        limit: 10
+      - type: rss
+        id: v2ex
+        url: https://www.v2ex.com/index.xml
+        limit: 10
+      - type: rss
+        id: oschina
+        url: https://www.oschina.net/news/rss
+        limit: 10
+    digest:
+      mode: plain
+      only_new: true
+    channels:
+      - type: file
+        path: validation/reports/
+      - type: stdout
+
+  # Job 2 — real field watch: GitHub repo stats (stars move daily)
+  - name: nextjs-stats-watch
+    subject: "next.js repo watch — {today} ({changes} changes)"
+    sources:
+      - type: static_json
+        id: nextjs-repo
+        url: https://api.github.com/repos/vercel/next.js
+        uid_key: id
+        fields:
+          stars: "{stargazers_count}"
+          forks: "{forks_count}"
+          open_issues: "{open_issues_count}"
+    digest:
+      mode: plain
+      watch_changes: true
+      only_changed: true
+    channels:
+      - type: file
+        path: validation/reports/
+      - type: stdout
+
+  # Job 3 — release watching (RSS only_new)
+  - name: nextjs-release-watch
+    subject: "next.js releases — {today} ({items} new)"
+    sources:
+      - type: rss
+        id: nextjs-releases
+        url: https://github.com/vercel/next.js/releases.atom
+        limit: 5
+    digest:
+      mode: plain
+      only_new: true
+    channels:
+      - type: file
+        path: validation/reports/
+      - type: stdout

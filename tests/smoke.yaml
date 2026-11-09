@@ -1,0 +1,40 @@
+# Offline smoke test — no network keys needed.
+#   python run.py --config tests/smoke.yaml --once        (first run: sends items)
+#   python run.py --config tests/smoke.yaml --once        (second run: skips, deduped)
+state:
+  file: .state/smoke-state.json
+
+llm:
+  api_key: ""                    # empty on purpose -> forces plain digest
+
+jobs:
+  - name: smoke
+    subject: "Smoke brief {today}"
+    sources:
+      - type: rss
+        id: smokefeed
+        url: tests/fixtures/feed.xml
+        limit: 10
+    digest:
+      mode: llm                  # will fall back to plain because api_key is empty
+      only_new: true
+    channels:
+      - type: stdout
+
+  - name: smoke-json
+    subject: "JSON smoke {today}"
+    sources:
+      - type: static_json
+        id: data
+        url: tests/fixtures/data.json
+        list_path: repos
+        uid_key: id
+        fields:
+          title: "{title}"
+          price: "{price}"
+          url: "{url}"
+    digest:
+      mode: plain
+      only_new: true
+    channels:
+      - type: stdout

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<!--
+  BriefBot — Acceptable Use Policy (added 2026-10-23)
+  Required by Creem compliance re-review: AI-feature acceptable use,
+  source-content and output restrictions, NSFW prohibition & moderation stance.
+-->
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Acceptable Use Policy — BriefBot</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230b0f14'/%3E%3Crect x='7' y='10' width='18' height='13' rx='4' fill='none' stroke='%234cc2ff' stroke-width='2'/%3E%3Ccircle cx='12.5' cy='16.5' r='1.8' fill='%234cc2ff'/%3E%3Ccircle cx='19.5' cy='16.5' r='1.8' fill='%234cc2ff'/%3E%3C/svg%3E">
+<style>
+  :root{--bg:#0b0f14;--panel:#10161e;--border:#1e2936;--text:#e6edf3;--muted:#8b98a5;--dim:#5c6873;--accent:#4cc2ff}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--text);font:16px/1.7 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;-webkit-font-smoothing:antialiased}
+  a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+  .wrap{max-width:760px;margin:0 auto;padding:0 24px}
+  .top{border-bottom:1px solid var(--border);padding:18px 0}
+  .top .wrap{display:flex;justify-content:space-between;align-items:center;font-size:14px}
+  .brand{font-weight:700;color:var(--text)}
+  .doc{padding:56px 0 72px}
+  h1{font-size:30px;letter-spacing:-.02em;margin-bottom:6px}
+  .updated{color:var(--dim);font-size:13.5px;margin-bottom:36px}
+  h2{font-size:18px;margin:34px 0 10px;letter-spacing:-.01em}
+  p,li{color:#c3cdd8;font-size:15px}
+  ul{padding-left:22px;margin:8px 0}
+  li{margin:5px 0}
+  .card{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:18px 20px;margin:18px 0;font-size:14.5px;color:var(--muted)}
+  footer{border-top:1px solid var(--border);padding:28px 0 40px;text-align:center;font-size:13.5px;color:var(--dim)}
+  footer a{color:var(--muted);margin:0 10px}
+</style>
+</head>
+<body>
+
+<div class="top"><div class="wrap"><span class="brand">BriefBot</span><span><a href="index.html">← Back to product</a></span></div></div>
+
+<div class="doc">
+  <div class="wrap">
+    <h1>Acceptable Use Policy</h1>
+    <p class="updated">Last updated: October 23, 2026</p>
+
+    <p>This policy governs your use of BriefBot, including its AI-powered summarization features. It supplements (and is incorporated into) the <a href="terms.html">Terms of Service</a>. By purchasing or using BriefBot you agree to it. "You" means the licensee running BriefBot on their own infrastructure.</p>
+
+    <div class="card"><b>Short version:</b> BriefBot is a tool for monitoring sources you're entitled to read and turning them into clean briefs for legitimate purposes. Don't point it at content you have no right to access, don't use it to produce or distribute NSFW or illegal material, and understand that you — not the AI — are responsible for everything it outputs on your behalf.</div>
+
+    <h2>1. Acceptable sources (input policy)</h2>
+    <p>BriefBot fetches RSS/Atom feeds, web pages, and JSON APIs that <b>you configure</b>. You may only monitor sources that:</p>
+    <ul>
+      <li>you are legally permitted to access (no paywall circumvention, credential sharing, or bypassing technical protection measures);</li>
+      <li>allow automated access under their terms of service, robots directives, or applicable law;</li>
+      <li>do not require you to violate rate limits or anti-scraping protections — BriefBot intentionally fails loudly on such sources instead of evading them;</li>
+      <li>do not contain third parties' personal data that you have no lawful basis to process.</li>
+    </ul>
+
+    <h2>2. Acceptable outputs</h2>
+    <p>Summaries produced by BriefBot's optional AI layer are for your personal, internal, or editorial use. You may publish them (e.g., in a newsletter) provided you respect the underlying content's rights and your jurisdiction's rules. You are responsible for reviewing AI output before acting on it or publishing it; AI-generated summaries can contain errors and must not be presented as verbatim source text.</p>
+
+    <h2>3. Prohibited uses — AI summarization and the product generally</h2>
+    <p>You must not use BriefBot or its AI features to create, summarize for distribution, or otherwise facilitate:</p>
+    <ul>
+      <li><b>NSFW / sexual content.</b> Using the AI layer to generate, rewrite, or package pornographic or other not-safe-for-work content is prohibited.</li>
+      <li><b>Content involving minors</b> in any sexual or exploitative context. Zero tolerance; we report such conduct to authorities.</li>
+      <li><b>Hate speech, harassment, or defamation</b> targeting people or groups.</li>
+      <li><b>Illegal content</b> of any kind under your jurisdiction or ours, including malware, phishing, and fraud operations.</li>
+      <li><b>Mass copyright infringement</b> — systematically scraping and redistributing copyrighted content beyond fair use / your licensed rights.</li>
+      <li><b>Privacy violations</b> — collecting or profiling individuals' personal data without a lawful basis (stalking, doxxing).</li>
+      <li><b>Impersonation</b> of a person or brand, or passing off AI output as another's work.</li>
+      <li>Uses that violate sanctions, export-control, or anti-money-laundering laws.</li>
+    </ul>
+
+    <h2>4. NSFW and content-moderation stance</h2>
+    <p>BriefBot is a self-hosted tool with a bring-your-own-model design: it contains <b>no built-in content filters of its own</b>, and it is not designed, marketed, or licensed for producing or distributing NSFW or otherwise prohibited content. Because the AI layer uses your chosen provider (OpenAI, DeepSeek, OpenRouter, Groq, Ollama, etc.), the provider's own usage and safety policies apply on top of this one — configuring a provider does not waive any part of this policy. We do not operate a hosted service, so we do not pre-screen your configurations or outputs; instead, we enforce this policy reactively (see §5) and reserve the right to refuse or revoke licenses where we become aware of violations.</p>
+
+    <h2>5. Enforcement</h2>
+    <ul>
+      <li>We may refuse sale, revoke the license, or decline support for users we find, on reasonable evidence, to be violating this policy.</li>
+      <li>Refunds may be denied for licenses revoked for abuse (consistent with the <a href="refund.html">Refund Policy</a>'s anti-abuse clause).</li>
+      <li>We cooperate with lawful requests from authorities and payment networks.</li>
+    </ul>
+
+    <h2>6. Reporting violations</h2>
+    <p>If you believe BriefBot is being used in violation of this policy, report it to <a href="mailto:support@getbriefbot.app">support@getbriefbot.app</a> with details. We review every report.</p>
+
+    <h2>7. Changes</h2>
+    <p>We may update this policy as the product or applicable regulations evolve. The version on this page applies from its "Last updated" date.</p>
+  </div>
+</div>
+
+<footer>
+  © 2026 BriefBot
+  <a href="index.html">Product</a>
+  <a href="terms.html">Terms</a>
+  <a href="privacy.html">Privacy</a>
+  <a href="refund.html">Refund</a>
+</footer>
+
+</body>
+</html>

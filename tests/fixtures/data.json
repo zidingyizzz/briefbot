@@ -1,0 +1,6 @@
+{
+  "repos": [
+    {"id": "a1", "title": "Widget", "price": "19.9", "url": "https://example.com/a1"},
+    {"id": "b2", "title": "Gadget", "price": "29.9", "url": "https://example.com/b2"}
+  ]
+}

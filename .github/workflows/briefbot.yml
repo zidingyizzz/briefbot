@@ -1,0 +1,35 @@
+name: BriefBot
+
+on:
+  schedule:
+    - cron: "0 0 * * *"        # 08:00 Asia/Shanghai (UTC 00:00) — adjust to taste
+  workflow_dispatch:           # allow manual runs from the Actions tab
+
+jobs:
+  brief:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Restore digest state       # remembers seen items / last snapshots
+        uses: actions/cache@v4
+        with:
+          path: .state
+          key: briefbot-state-${{ github.run_id }}
+          restore-keys: briefbot-state-
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run BriefBot
+        run: python run.py --config config.yaml --once
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          OPENAI_BASE_URL: ${{ vars.OPENAI_BASE_URL || 'https://api.openai.com/v1' }}
+          OPENAI_MODEL: ${{ vars.OPENAI_MODEL || 'gpt-4o-mini' }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}

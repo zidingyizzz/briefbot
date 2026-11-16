@@ -71,6 +71,11 @@ Full walkthrough incl. Telegram bot setup and free GitHub Actions deployment:
 | `alert_after_failures` | `3` | consecutive source failures before the brief carries a ⚠️ health warning |
 | `system_prompt` | built-in editor | override the LLM persona |
 
+> Note: `watch_changes` keeps one snapshot per source. For a multi-row `static_json`
+> source only the last row's fields get diffed — watch one row per source, or split
+> rows into separate sources. (GitHub Actions cache eviction can also silently reset
+> `.state/` — rare, but if a digest ever re-sends everything, that's why.)
+
 ### job `channels:`
 
 | type | keys |

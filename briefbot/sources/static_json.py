@@ -38,11 +38,27 @@ class StaticJsonSource(Source):
         uid_key = self.spec.get("uid_key") or "id"
         limit = int(self.spec.get("limit", 50))
         items = []
-        for row in data[:limit]:
+        for row_idx, row in enumerate(data[:limit]):
             if not isinstance(row, dict):
                 row = {"value": str(row)}
-            fields = {k: _render(v, row) for k, v in fields_spec.items()} or dict(row)
-            uid = str(row.get(uid_key, "")) or str(len(items))
+            # audit#7（2026-11-12 修）：字段模板解析失败（API 改名/行结构不同）
+            # 不得返回空串——空串会触发 watch_changes 的假变更告警（`1200 -> `）。
+            # 渲染失败的字段标记 "<missing:key>"，watch 层按值变化如实呈现，
+            # 且 fields 全失败的行跳过（比静默空值更可诊断）。
+            missing = []
+
+            def guarded_render(name, template, r=row):
+                try:
+                    return template.format(**r)
+                except (KeyError, IndexError) as exc:
+                    missing.append(name)
+                    return f"<missing:{name}>"
+
+            fields = {k: guarded_render(k, v) for k, v in fields_spec.items()} or dict(row)
+            # uid 兜底用行索引（非 len(items)）：全失败行被跳过后 items 长度会漂移
+            uid = str(row.get(uid_key, "")) or f"row{row_idx}"
+            if missing and len(missing) == len(fields_spec):
+                continue  # 该行所有模板字段都解析失败：结构性缺失，跳过不产生假条目
             items.append({
                 "uid": f"{self.id}:{uid}",
                 "title": fields.get("title", uid),
@@ -51,10 +67,3 @@ class StaticJsonSource(Source):
                 "fields": fields,
             })
         return items
-
-
-def _render(template, row):
-    try:
-        return template.format(**row)
-    except (KeyError, IndexError):
-        return ""

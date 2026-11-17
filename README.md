@@ -137,6 +137,8 @@ LLM mode just makes it read like your own newsletter.
 **Will it re-send old items on GitHub Actions?** No — the bundled workflow
 caches `.state/` between runs, so dedupe and field diffs survive.
 
+**What if the cache evicts `.state/` anyway?** A daily run touches the cache daily, so this mostly happens after the schedule stops — GitHub disables scheduled workflows in public repos after 60 days without a push. The next run then re-sends up to `digest.max_items` items (default 30) once and rebuilds state. To skip the cache entirely, commit `.state/` to a branch and check it out in the workflow.
+
 **Many jobs?** List as many as you like; each has its own sources and channels.
 
 **Are secrets safe?** Keys come from environment variables or your local

@@ -25,10 +25,11 @@ class StaticJsonSource(Source):
             with open(target, "r", encoding="utf-8") as fh:
                 data = json.load(fh)
 
-        list_path = self.spec.get("list_path")
-        if list_path:
-            for part in list_path.split("."):
-                data = data[part]
+        # "." (root array) or stray empty segments must not be traversed:
+        # ".".split(".") == ["", ""] would crash on data[""].
+        parts = [p for p in (self.spec.get("list_path") or "").split(".") if p]
+        for part in parts:
+            data = data[part]
         if isinstance(data, dict):
             data = [data]  # single-object APIs work too (watched as one row)
         if not isinstance(data, list):

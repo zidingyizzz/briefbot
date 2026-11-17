@@ -36,6 +36,19 @@ class TestStaticJsonMissingFields(unittest.TestCase):
         return StaticJsonSource(
             {"id": "t", "url": p, "uid_key": "sku", "fields": fields})
 
+    def test_root_array_with_dot_list_path(self):
+        # list_path "." = 根数组：不得被切成空段后 data[''] 崩溃（2026-11-17
+        # dev.to 教程示例踩中；正确写法是不写 list_path，此处保证写了也能活）
+        p = _write([{"sku": "A1", "name": "Widget"}])
+        self._files.append(p)
+        src = StaticJsonSource(
+            {"id": "t", "url": p, "list_path": ".", "uid_key": "sku",
+             "fields": {"title": "{name}"}})
+        items = src.collect()
+        self.assertEqual(len(items), 1)
+        self.assertEqual(items[0]["uid"], "t:A1")
+        self.assertEqual(items[0]["fields"]["title"], "Widget")
+
     def test_partial_missing_marks_field(self):
         # API 改名：price 键消失 → 保留条目且显式标记，不是空串
         items = self._src(

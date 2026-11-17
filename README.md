@@ -16,6 +16,10 @@ sources ──▶ state diff ──▶ digest ──▶ channels
  JSON)        fields)                     Feishu)
 ```
 
+## Written about
+
+- [I spent a weekend on a bot that turns 40 minutes of feeds into a 40-second digest](https://dev.to/zidingyizzz/i-spent-a-weekend-on-a-bot-that-turns-40-minutes-of-feeds-into-a-40-second-digest-586a) — running BriefBot for free on GitHub Actions in about 5 minutes.
+
 ## Why you'll like it
 
 - **One config, many use cases** — daily niche-news digest, competitor price
@@ -105,6 +109,23 @@ Secrets never live in the config — reference env vars with
 python run.py -c CONFIG [--job NAME] [--check] [--dry-run] [--once]
                          [--loop --interval 3600] [-v]
 ```
+
+## Alternatives (honest ones)
+
+Different jobs, pick what fits:
+
+- **[changedetection.io](https://github.com/dgtlmoon/changedetection.io)** — watches pages
+  and pings you the moment something changes. Pick it if you want instant change
+  alerts; BriefBot is the opposite rhythm: everything that changed today, edited
+  into one morning message.
+- **[RSSbrew](https://github.com/yinan-c/RSSbrew) / [RSS-GPT](https://github.com/yinan-c/RSS-GPT)** —
+  filter feeds and attach AI summaries, but the output is still a feed/webpage,
+  so you stay inside a reader. Pick them if you like reading in a reader.
+- **Readless / briefing SaaS** — polished hosted briefings on a subscription.
+  Pick one if you'd rather not touch a repo at all.
+- Already running an AI agent (OpenClaw etc.)? Writing a skill for it may suit
+  you better than a standalone bot — BriefBot is for people who prefer a small
+  deterministic pipeline over an agent runtime.
 
 ## FAQ
 
